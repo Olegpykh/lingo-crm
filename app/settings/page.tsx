@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   Typography,
   Container,
@@ -45,13 +45,27 @@ export default function SettingsPage() {
   const [weeklyDigest, setWeeklyDigest] = useState(false);
   const [saved, setSaved] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [avatar, setAvatar] = useState<string | null>(user.avatar);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAvatar(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const hasChanges = name !== user.name || email !== user.email;
+  const hasChanges =
+    name !== user.name || email !== user.email || avatar !== user.avatar;
 
   const handleSave = () => {
     if (!emailValid) return;
-    setUser({ name, email });
+    setUser({ name, email, avatar });
     setSaved(true);
   };
 
@@ -71,6 +85,7 @@ export default function SettingsPage() {
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
           <Avatar
+            src={avatar ?? undefined}
             sx={{
               width: 64,
               height: 64,
@@ -80,9 +95,30 @@ export default function SettingsPage() {
           >
             {name.charAt(0)}
           </Avatar>
-          <Button variant="outlined" size="small">
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={handleAvatarChange}
+            style={{ display: 'none' }}
+          />
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => fileInputRef.current?.click()}
+          >
             Foto ändern
           </Button>
+          {avatar && (
+            <Button
+              variant="text"
+              size="small"
+              color="error"
+              onClick={() => setAvatar(null)}
+            >
+              Entfernen
+            </Button>
+          )}
         </Box>
 
         <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>

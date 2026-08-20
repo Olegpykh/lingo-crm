@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useSyncExternalStore,
+  ReactNode,
+} from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
@@ -29,16 +35,24 @@ const ColorModeContext = createContext<ColorModeContextType>({
 
 export const useColorMode = () => useContext(ColorModeContext);
 
-function getInitialMode(): 'light' | 'dark' {
-  if (typeof window === 'undefined') return 'light';
-  const stored = localStorage.getItem('lingo-mode');
-  return stored === 'dark' ? 'dark' : 'light';
+function subscribe(callback: () => void) {
+  window.addEventListener('lingo-theme-change', callback);
+  return () => window.removeEventListener('lingo-theme-change', callback);
 }
 
-function getInitialAccent(): AccentKey {
-  if (typeof window === 'undefined') return 'indigo';
+function getModeSnapshot(): 'light' | 'dark' {
+  return localStorage.getItem('lingo-mode') === 'dark' ? 'dark' : 'light';
+}
+function getModeServerSnapshot(): 'light' | 'dark' {
+  return 'light';
+}
+
+function getAccentSnapshot(): AccentKey {
   const stored = localStorage.getItem('lingo-accent');
   return stored && stored in accentColors ? (stored as AccentKey) : 'indigo';
+}
+function getAccentServerSnapshot(): AccentKey {
+  return 'indigo';
 }
 
 export default function ThemeContextProvider({
@@ -46,20 +60,26 @@ export default function ThemeContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const [mode, setMode] = useState<'light' | 'dark'>(getInitialMode);
-  const [accent, setAccentState] = useState<AccentKey>(getInitialAccent);
+  const mode = useSyncExternalStore(
+    subscribe,
+    getModeSnapshot,
+    getModeServerSnapshot
+  );
+  const accent = useSyncExternalStore(
+    subscribe,
+    getAccentSnapshot,
+    getAccentServerSnapshot
+  );
 
   const toggleColorMode = () => {
-    setMode((prev) => {
-      const next = prev === 'light' ? 'dark' : 'light';
-      localStorage.setItem('lingo-mode', next);
-      return next;
-    });
+    const next = mode === 'light' ? 'dark' : 'light';
+    localStorage.setItem('lingo-mode', next);
+    window.dispatchEvent(new Event('lingo-theme-change'));
   };
 
   const setAccent = (newAccent: AccentKey) => {
-    setAccentState(newAccent);
     localStorage.setItem('lingo-accent', newAccent);
+    window.dispatchEvent(new Event('lingo-theme-change'));
   };
 
   const theme = useMemo(

@@ -19,7 +19,10 @@ export default function Topbar() {
         borderColor: 'divider',
       }}
     >
-      <Avatar sx={{ bgcolor: 'primary.main', width: 36, height: 36 }}>
+      <Avatar
+        src={user.avatar ?? undefined}
+        sx={{ bgcolor: 'primary.main', width: 36, height: 36 }}
+      >
         {user.name.charAt(0)}
       </Avatar>
     </Box>
