@@ -14,17 +14,9 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import StudentCard from '@/components/StudentCard';
 import { students } from '@/data/students';
+import { levelPalette } from '@/lib/colors';
 
 const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
-
-const levelColors: Record<string, string> = {
-  A1: '#22c55e',
-  A2: '#22c55e',
-  B1: '#4f46e5',
-  B2: '#4f46e5',
-  C1: '#f59e0b',
-  C2: '#f59e0b',
-};
 
 export default function StudentsPage() {
   const [query, setQuery] = useState('');
@@ -92,7 +84,9 @@ export default function StudentsPage() {
             sx={{
               fontWeight: 600,
               bgcolor:
-                activeLevel === level ? levelColors[level] : 'action.hover',
+                activeLevel === level
+                  ? levelPalette[level].solid
+                  : 'action.hover',
               color: activeLevel === level ? 'white' : 'text.secondary',
               transition: 'background-color 0.15s, color 0.15s',
             }}

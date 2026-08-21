@@ -1,31 +1,36 @@
 'use client';
 
 import { Paper, Box, Typography } from '@mui/material';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import { SvgIconComponent } from '@mui/icons-material';
 
 interface StatCardProps {
   label: string;
   value: string | number;
-  trend: number;
+  subtitle: string;
+  subtitleColor?: 'success' | 'warning' | 'error' | 'default';
   icon: SvgIconComponent;
   iconColor: string;
   iconBg: string;
 }
 
+const colorMap = {
+  success: 'success.main',
+  warning: 'warning.main',
+  error: 'error.main',
+  default: 'text.secondary',
+};
+
 export default function StatCard({
   label,
   value,
-  trend,
+  subtitle,
+  subtitleColor = 'default',
   icon: Icon,
   iconColor,
   iconBg,
 }: StatCardProps) {
-  const isPositive = trend >= 0;
-
   return (
-    <Paper sx={{ flex: 1 }}>
+    <Paper sx={{ flex: 1, minWidth: 220 }}>
       <Box
         sx={{
           display: 'flex',
@@ -55,23 +60,12 @@ export default function StatCard({
         {value}
       </Typography>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 1 }}>
-        {isPositive ? (
-          <TrendingUpIcon sx={{ fontSize: 16, color: 'success.main' }} />
-        ) : (
-          <TrendingDownIcon sx={{ fontSize: 16, color: 'error.main' }} />
-        )}
-        <Typography
-          variant="body2"
-          sx={{
-            color: isPositive ? 'success.main' : 'error.main',
-            fontWeight: 600,
-          }}
-        >
-          {isPositive ? '+' : ''}
-          {trend}%
-        </Typography>
-      </Box>
+      <Typography
+        variant="body2"
+        sx={{ color: colorMap[subtitleColor], mt: 1, fontWeight: 500 }}
+      >
+        {subtitle}
+      </Typography>
     </Paper>
   );
 }

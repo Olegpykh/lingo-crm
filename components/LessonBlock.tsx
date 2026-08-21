@@ -2,21 +2,14 @@
 
 import { Box, Typography } from '@mui/material';
 import { useDraggable } from '@dnd-kit/core';
+import Link from 'next/link';
 import { students } from '@/data/students';
 import { Lesson } from '@/data/schedule';
-
-const levelColors: Record<string, { bg: string; text: string }> = {
-  A1: { bg: '#dcfce7', text: '#15803d' },
-  A2: { bg: '#dcfce7', text: '#15803d' },
-  B1: { bg: '#e0e7ff', text: '#4338ca' },
-  B2: { bg: '#e0e7ff', text: '#4338ca' },
-  C1: { bg: '#fef3c7', text: '#b45309' },
-  C2: { bg: '#fef3c7', text: '#b45309' },
-};
+import { levelPalette } from '@/lib/colors';
 
 export default function LessonBlock({ lesson }: { lesson: Lesson }) {
   const student = students.find((s) => s.name === lesson.studentName);
-  const colors = levelColors[student?.level ?? 'B1'];
+  const colors = levelPalette[student?.level ?? 'B1'];
 
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
@@ -30,7 +23,7 @@ export default function LessonBlock({ lesson }: { lesson: Lesson }) {
       }
     : undefined;
 
-  return (
+  const block = (
     <Box
       ref={setNodeRef}
       style={style}
@@ -52,12 +45,8 @@ export default function LessonBlock({ lesson }: { lesson: Lesson }) {
         boxShadow: isDragging
           ? '0 8px 24px rgba(0,0,0,0.18)'
           : '0 1px 2px rgba(0,0,0,0.04)',
-        '&:hover': {
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-        },
-        '&:active': {
-          cursor: 'grabbing',
-        },
+        '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.1)' },
+        '&:active': { cursor: 'grabbing' },
       }}
     >
       <Typography
@@ -73,5 +62,16 @@ export default function LessonBlock({ lesson }: { lesson: Lesson }) {
         {student?.level} · {lesson.duration} min
       </Typography>
     </Box>
+  );
+
+  if (!student) return block;
+
+  return (
+    <Link
+      href={`/students/${student.id}`}
+      style={{ textDecoration: 'none', display: 'block', height: '100%' }}
+    >
+      {block}
+    </Link>
   );
 }

@@ -5,6 +5,7 @@ import './globals.css';
 import { Box } from '@mui/material';
 import ThemeContextProvider from '@/context/ThemeContext';
 import UserContextProvider from '@/context/UserContext';
+import LessonsContextProvider from '@/context/LessonsContext';
 import Sidebar from '@/components/Sidebar';
 import Topbar from '@/components/Topbar';
 
@@ -27,19 +28,21 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ThemeContextProvider>
           <UserContextProvider>
-            <Box
-              sx={{
-                display: 'flex',
-                bgcolor: 'background.default',
-                minHeight: '100vh',
-              }}
-            >
-              <Sidebar />
-              <Box sx={{ flexGrow: 1 }}>
-                <Topbar />
-                {children}
+            <LessonsContextProvider>
+              <Box
+                sx={{
+                  display: 'flex',
+                  bgcolor: 'background.default',
+                  minHeight: '100vh',
+                }}
+              >
+                <Sidebar />
+                <Box sx={{ flexGrow: 1 }}>
+                  <Topbar />
+                  {children}
+                </Box>
               </Box>
-            </Box>
+            </LessonsContextProvider>
           </UserContextProvider>
         </ThemeContextProvider>
       </body>
