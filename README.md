@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lingo CRM
 
-## Getting Started
+A portfolio project: a CRM app for managing English-language students, lesson schedules, and account settings. Built with Next.js, TypeScript, and MUI. The app's UI is in German.
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+## About
+
+A CRM concept aimed at freelance language teachers, letting them track students' progress, payment status, attendance, and their weekly lesson schedule in one place.
+
+## Features
+
+- **Dashboard** — key metrics at a glance: student count, average attendance, pending payments, lessons scheduled this week, plus upcoming lessons and CEFR level distribution (A1–C2)
+- **Student management** — searchable, level-filterable overview with a detail page per student (contact info, progress, notes, their lessons)
+- **Drag & drop schedule** — move lessons between time slots via drag & drop (using `@dnd-kit`), with a weekly grid or list view
+- **Settings** — profile editing with photo upload, light/dark mode, accent color picker, notification toggles
+- **Persistent state** — all changes survive page reloads (Zustand + `localStorage`)
+- **Responsive design** — from a full desktop dashboard down to a mobile view with a collapsible navigation drawer
+
+## Tech Stack
+
+| Area | Technology |
+|---|---|
+| Framework | [Next.js](https://nextjs.org/) (App Router) |
+| Language | TypeScript |
+| UI Library | [MUI (Material UI)](https://mui.com/) |
+| State Management | [Zustand](https://github.com/pmndrs/zustand) with `persist` middleware |
+| Drag & Drop | [@dnd-kit](https://dndkit.com/) |
+| Validation | [Zod](https://zod.dev/) |
+| Deployment | [Vercel](https://vercel.com/) |
+
+## Project Structure
+
+```
+app/                  # Next.js App Router — pages and layouts
+components/           # Reusable UI components
+components/settings/  # Settings page sections
+entities/             # Domain types (Student, Lesson, User) and related logic
+store/                # Zustand store, split into slices
+data/                 # Mock data for students and the schedule
+lib/                  # Shared utilities (colors, validation)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Running Locally
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+git clone https://github.com/Olegpykh/lingo-crm.git
+cd lingo-crm
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The app will be running at [http://localhost:3000](http://localhost:3000).
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Roadmap
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [ ] Form for adding new students
+- [ ] Supabase integration (real database instead of mock data)
+- [ ] Authentication
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Author
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Oleg Pykhonin** — Frontend Developer, Berlin
+[GitHub](https://github.com/Olegpykh)
