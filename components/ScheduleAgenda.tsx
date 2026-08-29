@@ -2,7 +2,7 @@
 
 import { Paper, Typography, Box, Stack, Chip } from '@mui/material';
 import Link from 'next/link';
-import { useLessons } from '@/context/LessonsContext';
+import { useAppStore } from '@/store/useAppStore';
 import { students } from '@/data/students';
 import { levelPalette } from '@/lib/colors';
 
@@ -23,7 +23,7 @@ const dayLabels: Record<string, string> = {
 };
 
 export default function ScheduleAgenda() {
-  const { lessons } = useLessons();
+  const lessons = useAppStore((state) => state.lessons);
 
   const sorted = [...lessons].sort((a, b) => {
     const dayDiff = dayOrder[a.day] - dayOrder[b.day];

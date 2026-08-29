@@ -7,6 +7,8 @@ import {
   ToggleButtonGroup,
   ToggleButton,
   Box,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import ViewListIcon from '@mui/icons-material/ViewList';
@@ -18,10 +20,15 @@ const ScheduleGrid = dynamic(() => import('@/components/ScheduleGrid'), {
 });
 
 export default function SchedulePage() {
-  const [view, setView] = useState<'week' | 'list'>('week');
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [view, setView] = useState<'week' | 'list'>(isMobile ? 'list' : 'week');
 
   return (
-    <Container maxWidth="lg" sx={{ py: 5 }}>
+    <Container
+      maxWidth="lg"
+      sx={{ py: { xs: 3, md: 5 }, px: { xs: 2, md: 3 } }}
+    >
       <Box
         sx={{
           display: 'flex',

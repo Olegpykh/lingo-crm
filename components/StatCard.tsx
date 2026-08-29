@@ -2,6 +2,7 @@
 
 import { Paper, Box, Typography } from '@mui/material';
 import { SvgIconComponent } from '@mui/icons-material';
+import { statusColorMap } from '@/lib/colors';
 
 interface StatCardProps {
   label: string;
@@ -13,13 +14,6 @@ interface StatCardProps {
   iconBg: string;
 }
 
-const colorMap = {
-  success: 'success.main',
-  warning: 'warning.main',
-  error: 'error.main',
-  default: 'text.secondary',
-};
-
 export default function StatCard({
   label,
   value,
@@ -30,7 +24,7 @@ export default function StatCard({
   iconBg,
 }: StatCardProps) {
   return (
-    <Paper sx={{ flex: 1, minWidth: 220 }}>
+    <Paper sx={{ flex: 1, minWidth: { xs: 0, sm: 220 }, width: '100%' }}>
       <Box
         sx={{
           display: 'flex',
@@ -50,6 +44,7 @@ export default function StatCard({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            flexShrink: 0,
           }}
         >
           <Icon sx={{ fontSize: 20, color: iconColor }} />
@@ -62,7 +57,7 @@ export default function StatCard({
 
       <Typography
         variant="body2"
-        sx={{ color: colorMap[subtitleColor], mt: 1, fontWeight: 500 }}
+        sx={{ color: statusColorMap[subtitleColor], mt: 1, fontWeight: 500 }}
       >
         {subtitle}
       </Typography>

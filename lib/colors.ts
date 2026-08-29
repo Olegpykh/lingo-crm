@@ -15,3 +15,10 @@ export const paymentColors: Record<string, string> = {
   Ausstehend: '#f59e0b',
   Überfällig: '#ef4444',
 };
+
+export const statusColorMap = {
+  success: 'success.main',
+  warning: 'warning.main',
+  error: 'error.main',
+  default: 'text.secondary',
+} as const;

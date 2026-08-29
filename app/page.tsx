@@ -4,18 +4,21 @@ import { Typography, Container, Stack, Paper, Box, Chip } from '@mui/material';
 import PeopleIcon from '@mui/icons-material/People';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import PaymentIcon from '@mui/icons-material/Payment';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 import Link from 'next/link';
 import StatCard from '@/components/StatCard';
 import { students } from '@/data/students';
-import { useLessons } from '@/context/LessonsContext';
+import { useAppStore } from '@/store/useAppStore';
 import { levelPalette } from '@/lib/colors';
-
-const totalLessons = students.reduce((sum, s) => sum + s.lessonsThisWeek, 0);
-
-const levelCounts = students.reduce((acc, s) => {
-  acc[s.level] = (acc[s.level] ?? 0) + 1;
-  return acc;
-}, {} as Record<string, number>);
+import {
+  getTotalLessons,
+  getLevelCounts,
+  getNewStudentsCount,
+  getAvgAttendance,
+  getHighAttendanceCount,
+  getPendingPaymentsCount,
+  getOverdueCount,
+} from '@/entities/student/stats';
 
 const dayOrder: Record<string, number> = {
   Monday: 1,
@@ -25,33 +28,16 @@ const dayOrder: Record<string, number> = {
   Friday: 5,
 };
 
-const today = new Date('2026-08-21');
-
-function daysSince(dateStr: string): number {
-  const diff = today.getTime() - new Date(dateStr).getTime();
-  return Math.floor(diff / (1000 * 60 * 60 * 24));
-}
-
-const newStudentsCount = students.filter(
-  (s) => daysSince(s.joinedDate) <= 30
-).length;
-
-const avgAttendance = Math.round(
-  students.reduce((sum, s) => sum + s.attendanceRate, 0) / students.length
-);
-const highAttendanceCount = students.filter(
-  (s) => s.attendanceRate >= 90
-).length;
-
-const pendingPaymentsCount = students.filter(
-  (s) => s.paymentStatus !== 'Bezahlt'
-).length;
-const overdueCount = students.filter(
-  (s) => s.paymentStatus === 'Überfällig'
-).length;
+const totalLessons = getTotalLessons(students);
+const levelCounts = getLevelCounts(students);
+const newStudentsCount = getNewStudentsCount(students);
+const avgAttendance = getAvgAttendance(students);
+const highAttendanceCount = getHighAttendanceCount(students);
+const pendingPaymentsCount = getPendingPaymentsCount(students);
+const overdueCount = getOverdueCount(students);
 
 export default function Home() {
-  const { lessons } = useLessons();
+  const lessons = useAppStore((state) => state.lessons);
 
   const upcomingLessons = [...lessons]
     .sort((a, b) => {
@@ -62,7 +48,10 @@ export default function Home() {
     .slice(0, 8);
 
   return (
-    <Container maxWidth="lg" sx={{ py: 5 }}>
+    <Container
+      maxWidth="lg"
+      sx={{ py: { xs: 3, md: 5 }, px: { xs: 2, md: 3 } }}
+    >
       <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
         Dashboard
       </Typography>
@@ -71,7 +60,7 @@ export default function Home() {
       </Typography>
 
       <Stack
-        direction="row"
+        direction={{ xs: 'column', sm: 'row' }}
         spacing={2}
         sx={{ mb: 3, flexWrap: 'wrap', gap: 2 }}
       >
@@ -104,9 +93,21 @@ export default function Home() {
           iconColor="#f97316"
           iconBg="#fff7ed"
         />
+        <StatCard
+          label="Unterrichtsstunden"
+          value={totalLessons}
+          subtitle="diese Woche geplant"
+          icon={ScheduleIcon}
+          iconColor="#8b5cf6"
+          iconBg="#f5f3ff"
+        />
       </Stack>
 
-      <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap', gap: 2 }}>
+      <Stack
+        direction={{ xs: 'column', md: 'row' }}
+        spacing={2}
+        sx={{ flexWrap: 'wrap', gap: 2 }}
+      >
         <Paper sx={{ flex: 2, minWidth: 300 }}>
           <Box
             sx={{

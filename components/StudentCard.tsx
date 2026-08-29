@@ -12,7 +12,11 @@ import { Student } from '@/data/students';
 import Link from 'next/link';
 import { levelPalette, paymentColors } from '@/lib/colors';
 
-export default function StudentCard({ student }: { student: Student }) {
+interface StudentCardProps {
+  student: Student;
+}
+
+export default function StudentCard({ student }: StudentCardProps) {
   return (
     <Link
       href={`/students/${student.id}`}

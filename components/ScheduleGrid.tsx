@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   Box,
   Paper,
@@ -21,10 +20,11 @@ import {
 import LessonBlock from './LessonBlock';
 import DroppableCell from './DroppableCell';
 import { DAYS, TIMES } from '@/data/schedule';
-import { useLessons } from '@/context/LessonsContext';
+import { useAppStore } from '@/store/useAppStore';
 
 export default function ScheduleGrid() {
-  const { lessons, moveLesson } = useLessons();
+  const lessons = useAppStore((state) => state.lessons);
+  const moveLesson = useAppStore((state) => state.moveLesson);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -46,14 +46,26 @@ export default function ScheduleGrid() {
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <TableContainer
         component={Paper}
-        sx={{ maxWidth: 1000, margin: 'auto', mt: 4 }}
+        sx={{
+          maxWidth: 1000,
+          margin: 'auto',
+          mt: { xs: 2, md: 4 },
+          overflowX: 'auto',
+          WebkitOverflowScrolling: 'touch',
+        }}
       >
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center">Time</TableCell>
+              <TableCell align="center" sx={{ width: { xs: 70, md: 100 } }}>
+                Time
+              </TableCell>
               {DAYS.map((day) => (
-                <TableCell key={day} align="center" sx={{ fontWeight: 'bold' }}>
+                <TableCell
+                  key={day}
+                  align="center"
+                  sx={{ fontWeight: 'bold', width: { xs: 90, md: 150 } }}
+                >
                   {day}
                 </TableCell>
               ))}
@@ -64,7 +76,7 @@ export default function ScheduleGrid() {
               <TableRow key={time}>
                 <TableCell
                   align="center"
-                  sx={{ fontWeight: 'bold', width: 100 }}
+                  sx={{ fontWeight: 'bold', width: { xs: 70, md: 100 } }}
                 >
                   {time}
                 </TableCell>

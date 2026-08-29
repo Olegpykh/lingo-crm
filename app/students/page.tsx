@@ -37,6 +37,7 @@ export default function StudentsPage() {
         {filteredStudents.length} von {students.length} Schüler:innen
       </Typography>
 
+
       <Stack
         direction="row"
         spacing={2}

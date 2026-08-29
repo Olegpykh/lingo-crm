@@ -1,11 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Box } from '@mui/material';
-import ThemeContextProvider from '@/context/ThemeContext';
-import UserContextProvider from '@/context/UserContext';
-import LessonsContextProvider from '@/context/LessonsContext';
+import AppThemeProvider from '@/components/AppThemeProvider';
 import Sidebar from '@/components/Sidebar';
 import Topbar from '@/components/Topbar';
 
@@ -20,31 +19,32 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <html
       lang="de"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeContextProvider>
-          <UserContextProvider>
-            <LessonsContextProvider>
-              <Box
-                sx={{
-                  display: 'flex',
-                  bgcolor: 'background.default',
-                  minHeight: '100vh',
-                }}
-              >
-                <Sidebar />
-                <Box sx={{ flexGrow: 1 }}>
-                  <Topbar />
-                  {children}
-                </Box>
-              </Box>
-            </LessonsContextProvider>
-          </UserContextProvider>
-        </ThemeContextProvider>
+        <AppThemeProvider>
+          <Box
+            sx={{
+              display: 'flex',
+              bgcolor: 'background.default',
+              minHeight: '100vh',
+            }}
+          >
+            <Sidebar
+              mobileOpen={mobileOpen}
+              onClose={() => setMobileOpen(false)}
+            />
+            <Box sx={{ flexGrow: 1, minWidth: 0, overflowX: 'hidden' }}>
+              <Topbar onMenuClick={() => setMobileOpen((prev) => !prev)} />
+              {children}
+            </Box>
+          </Box>
+        </AppThemeProvider>
       </body>
     </html>
   );

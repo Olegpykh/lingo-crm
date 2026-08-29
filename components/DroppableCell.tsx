@@ -17,7 +17,7 @@ export default function DroppableCell({ id, children }: DroppableCellProps) {
       ref={setNodeRef}
       sx={{
         height: 80,
-        width: 150,
+        width: { xs: 90, md: 150 },
         p: 1,
         border: '1px solid #e0e0e0',
         bgcolor: isOver ? 'action.hover' : 'background.paper',

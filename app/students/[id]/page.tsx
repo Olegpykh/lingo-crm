@@ -22,7 +22,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import Link from 'next/link';
 import { students } from '@/data/students';
-import { useLessons } from '@/context/LessonsContext';
+import { useAppStore } from '@/store/useAppStore';
 import { levelPalette, paymentColors } from '@/lib/colors';
 
 export default function StudentDetailPage({
@@ -32,7 +32,7 @@ export default function StudentDetailPage({
 }) {
   const { id } = use(params);
   const student = students.find((s) => s.id === id);
-  const { lessons } = useLessons();
+  const lessons = useAppStore((state) => state.lessons);
 
   if (!student) {
     notFound();
