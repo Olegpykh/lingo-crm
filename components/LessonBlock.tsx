@@ -41,6 +41,7 @@ export default function LessonBlock({ lesson }: { lesson: Lesson }) {
         gap: 0.25,
         cursor: 'grab',
         userSelect: 'none',
+        touchAction: 'none',
         opacity: isDragging ? 0.5 : 1,
         boxShadow: isDragging
           ? '0 8px 24px rgba(0,0,0,0.18)'
