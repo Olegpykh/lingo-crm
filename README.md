@@ -8,10 +8,12 @@ A portfolio project: a CRM app for managing English-language students, lesson sc
 
 <table>
   <tr>
-    <td><img width="280" alt="Einstellungen" src="https://github.com/user-attachments/assets/e7a79ab7-8fce-4e3c-ace4-5a99c2d54932" /></td>
-    <td><img width="280" alt="Schüler:innen" src="https://github.com/user-attachments/assets/0773cf93-9467-46ac-b079-b4d48077546c" /></td>
-    <td><img width="280" alt="Termine" src="https://github.com/user-attachments/assets/87554323-c3b5-4f09-ac22-c8035c148159" /></td>
-    <td><img width="280" alt="Dashboard" src="https://github.com/user-attachments/assets/8060cdfa-01c9-43ed-b788-132018e5f958" /></td>
+    <td width="50%"><img width="100%" alt="Einstellungen" src="https://github.com/user-attachments/assets/e7a79ab7-8fce-4e3c-ace4-5a99c2d54932" /></td>
+    <td width="50%"><img width="100%" alt="Schüler:innen" src="https://github.com/user-attachments/assets/0773cf93-9467-46ac-b079-b4d48077546c" /></td>
+  </tr>
+  <tr>
+    <td width="50%"><img width="100%" alt="Termine" src="https://github.com/user-attachments/assets/87554323-c3b5-4f09-ac22-c8035c148159" /></td>
+    <td width="50%"><img width="100%" alt="Dashboard" src="https://github.com/user-attachments/assets/8060cdfa-01c9-43ed-b788-132018e5f958" /></td>
   </tr>
 </table>
 
