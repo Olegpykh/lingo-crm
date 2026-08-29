@@ -6,20 +6,14 @@ A portfolio project: a CRM app for managing English-language students, lesson sc
 
 ## Screenshots
 
-<!-- Drag & drop the 4 screenshots here in GitHub's web editor, then wrap the resulting
-     image lines in a table like below (2x2 grid), swapping in the links GitHub gives you:
-
 <table>
   <tr>
-    <td><img width="400" alt="Einstellungen" src="https://github.com/user-attachments/assets/e7a79ab7-8fce-4e3c-ace4-5a99c2d54932" /></td>
-    <td><img width="400" alt="Schüler:innen" src="https://github.com/user-attachments/assets/0773cf93-9467-46ac-b079-b4d48077546c" /></td>
-  </tr>
-  <tr>
-    <td><img width="400" alt="Termine" src="https://github.com/user-attachments/assets/87554323-c3b5-4f09-ac22-c8035c148159" /></td>
-    <td><img width="400" alt="Dashboard" src="https://github.com/user-attachments/assets/8060cdfa-01c9-43ed-b788-132018e5f958" /></td>
+    <td><img width="280" alt="Einstellungen" src="https://github.com/user-attachments/assets/e7a79ab7-8fce-4e3c-ace4-5a99c2d54932" /></td>
+    <td><img width="280" alt="Schüler:innen" src="https://github.com/user-attachments/assets/0773cf93-9467-46ac-b079-b4d48077546c" /></td>
+    <td><img width="280" alt="Termine" src="https://github.com/user-attachments/assets/87554323-c3b5-4f09-ac22-c8035c148159" /></td>
+    <td><img width="280" alt="Dashboard" src="https://github.com/user-attachments/assets/8060cdfa-01c9-43ed-b788-132018e5f958" /></td>
   </tr>
 </table>
-
 
 ## About
 
@@ -69,11 +63,6 @@ npm run dev
 
 The app will be running at [http://localhost:3000](http://localhost:3000).
 
-## Roadmap
-
-- [ ] Form for adding new students
-- [ ] Supabase integration (real database instead of mock data)
-- [ ] Authentication
 
 ## Author
 
