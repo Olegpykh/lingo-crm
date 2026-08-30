@@ -8,15 +8,17 @@ import {
   FormControlLabel,
   Divider,
 } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 export default function NotificationsSection() {
+  const t = useTranslations('settings');
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [weeklyDigest, setWeeklyDigest] = useState(false);
 
   return (
     <Paper sx={{ p: 3, mb: 3 }}>
       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-        Benachrichtigungen
+        {t('notifications')}
       </Typography>
 
       <FormControlLabel
@@ -26,7 +28,7 @@ export default function NotificationsSection() {
             onChange={(e) => setEmailNotifications(e.target.checked)}
           />
         }
-        label="E-Mail-Benachrichtigungen bei neuen Terminen"
+        label={t('emailNotifications')}
         sx={{ display: 'flex', justifyContent: 'space-between', ml: 0, mb: 1 }}
       />
 
@@ -39,7 +41,7 @@ export default function NotificationsSection() {
             onChange={(e) => setWeeklyDigest(e.target.checked)}
           />
         }
-        label="Wöchentliche Zusammenfassung"
+        label={t('weeklyDigest')}
         sx={{ display: 'flex', justifyContent: 'space-between', ml: 0 }}
       />
     </Paper>

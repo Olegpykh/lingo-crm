@@ -13,6 +13,7 @@ import {
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import dynamic from 'next/dynamic';
+import { useTranslations } from 'next-intl';
 import ScheduleAgenda from '@/components/ScheduleAgenda';
 
 const ScheduleGrid = dynamic(() => import('@/components/ScheduleGrid'), {
@@ -20,6 +21,7 @@ const ScheduleGrid = dynamic(() => import('@/components/ScheduleGrid'), {
 });
 
 export default function SchedulePage() {
+  const t = useTranslations('schedule');
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [view, setView] = useState<'week' | 'list'>(isMobile ? 'list' : 'week');
@@ -41,12 +43,10 @@ export default function SchedulePage() {
       >
         <Box>
           <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
-            Termine
+            {t('title')}
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            {view === 'week'
-              ? 'Dein Unterrichtsplan für diese Woche'
-              : 'Alle Termine in der Übersicht'}
+            {view === 'week' ? t('subtitleWeek') : t('subtitleList')}
           </Typography>
         </Box>
 
@@ -58,11 +58,11 @@ export default function SchedulePage() {
         >
           <ToggleButton value="week">
             <ViewWeekIcon sx={{ fontSize: 18, mr: 1 }} />
-            Woche
+            {t('week')}
           </ToggleButton>
           <ToggleButton value="list">
             <ViewListIcon sx={{ fontSize: 18, mr: 1 }} />
-            Liste
+            {t('list')}
           </ToggleButton>
         </ToggleButtonGroup>
       </Box>

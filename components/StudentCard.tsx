@@ -9,7 +9,8 @@ import {
   LinearProgress,
 } from '@mui/material';
 import { Student } from '@/data/students';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { useTranslations, useLocale } from 'next-intl';
 import { levelPalette, paymentColors } from '@/lib/colors';
 
 interface StudentCardProps {
@@ -17,6 +18,9 @@ interface StudentCardProps {
 }
 
 export default function StudentCard({ student }: StudentCardProps) {
+  const t = useTranslations('students');
+  const locale = useLocale() as 'de' | 'en';
+
   return (
     <Link
       href={`/students/${student.id}`}
@@ -61,7 +65,7 @@ export default function StudentCard({ student }: StudentCardProps) {
               }}
             />
             <Typography variant="body2" color="text.secondary">
-              {student.lessonsThisWeek} Stunden diese Woche
+              {student.lessonsThisWeek} {t('lessonsThisWeek')}
             </Typography>
           </Box>
 
@@ -70,7 +74,7 @@ export default function StudentCard({ student }: StudentCardProps) {
             color="text.secondary"
             sx={{ mt: 1.5, display: 'block' }}
           >
-            {student.goal}
+            {student.goal[locale]}
           </Typography>
 
           <Box sx={{ mt: 1.5 }}>
@@ -78,7 +82,7 @@ export default function StudentCard({ student }: StudentCardProps) {
               sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}
             >
               <Typography variant="caption" color="text.secondary">
-                Fortschritt
+                {t('progress')}
               </Typography>
               <Typography variant="caption" sx={{ fontWeight: 600 }}>
                 {student.progress}%

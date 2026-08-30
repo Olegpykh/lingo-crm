@@ -18,12 +18,15 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
+import { useLocale } from 'next-intl';
 import LessonBlock from './LessonBlock';
 import DroppableCell from './DroppableCell';
 import { DAYS, TIMES } from '@/data/schedule';
 import { useAppStore } from '@/store/useAppStore';
+import { translateDay } from '@/lib/weekdays';
 
 export default function ScheduleGrid() {
+  const locale = useLocale();
   const lessons = useAppStore((state) => state.lessons);
   const moveLesson = useAppStore((state) => state.moveLesson);
 
@@ -70,7 +73,7 @@ export default function ScheduleGrid() {
                   align="center"
                   sx={{ fontWeight: 'bold', width: { xs: 90, md: 150 } }}
                 >
-                  {day}
+                  {translateDay(day, locale)}
                 </TableCell>
               ))}
             </TableRow>

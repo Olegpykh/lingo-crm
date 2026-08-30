@@ -9,6 +9,7 @@ import {
   Avatar,
   MenuItem,
 } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 const timezones = [
   'Europe/Berlin',
@@ -41,13 +42,14 @@ export default function ProfileSection({
   timezone,
   setTimezone,
 }: ProfileSectionProps) {
+  const t = useTranslations('settings');
+
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
-    
-      reader.onload = () => {
+    reader.onload = () => {
       setAvatar(reader.result as string);
     };
     reader.readAsDataURL(file);
@@ -56,7 +58,7 @@ export default function ProfileSection({
   return (
     <Paper sx={{ p: 3, mb: 3 }}>
       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
-        Profil
+        {t('profile')}
       </Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
@@ -68,7 +70,7 @@ export default function ProfileSection({
         </Avatar>
 
         <Button component="label" variant="outlined" size="small">
-          Foto ändern
+          {t('changePhoto')}
           <input
             type="file"
             accept="image/*"
@@ -84,33 +86,33 @@ export default function ProfileSection({
             color="error"
             onClick={() => setAvatar(null)}
           >
-            Entfernen
+            {t('remove')}
           </Button>
         )}
       </Box>
 
       <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
         <TextField
-          label="Name"
+          label={t('name')}
           value={name}
           onChange={(e) => setName(e.target.value)}
           fullWidth
           size="small"
         />
         <TextField
-          label="E-Mail"
+          label={t('email')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           fullWidth
           size="small"
           error={!emailValid}
-          helperText={!emailValid ? 'Ungültige E-Mail-Adresse' : ' '}
+          helperText={!emailValid ? t('invalidEmail') : ' '}
         />
       </Box>
 
       <TextField
         select
-        label="Zeitzone"
+        label={t('timezone')}
         value={timezone}
         onChange={(e) => setTimezone(e.target.value)}
         fullWidth

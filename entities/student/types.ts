@@ -7,8 +7,8 @@ export interface Student {
   phone: string;
   joinedDate: string;
   progress: number;
-  goal: string;
-  notes: string;
+  goal: { de: string; en: string };
+  notes: { de: string; en: string };
   attendanceRate: number;
   lessonFormat: 'Online' | 'Vor Ort' | 'Hybrid';
   paymentStatus: 'Bezahlt' | 'Ausstehend' | 'Überfällig';
