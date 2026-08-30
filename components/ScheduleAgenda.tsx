@@ -1,10 +1,12 @@
 'use client';
 
 import { Paper, Typography, Box, Stack, Chip } from '@mui/material';
-import Link from 'next/link';
+import { useLocale, useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import { useAppStore } from '@/store/useAppStore';
 import { students } from '@/data/students';
 import { levelPalette } from '@/lib/colors';
+import { translateDay } from '@/lib/weekdays';
 
 const dayOrder: Record<string, number> = {
   Monday: 1,
@@ -14,15 +16,9 @@ const dayOrder: Record<string, number> = {
   Friday: 5,
 };
 
-const dayLabels: Record<string, string> = {
-  Monday: 'Montag',
-  Tuesday: 'Dienstag',
-  Wednesday: 'Mittwoch',
-  Thursday: 'Donnerstag',
-  Friday: 'Freitag',
-};
-
 export default function ScheduleAgenda() {
+  const t = useTranslations('schedule');
+  const locale = useLocale();
   const lessons = useAppStore((state) => state.lessons);
 
   const sorted = [...lessons].sort((a, b) => {
@@ -41,7 +37,7 @@ export default function ScheduleAgenda() {
   if (sorted.length === 0) {
     return (
       <Paper sx={{ p: 4, textAlign: 'center' }}>
-        <Typography color="text.secondary">Keine Termine geplant.</Typography>
+        <Typography color="text.secondary">{t('noAppointments')}</Typography>
       </Paper>
     );
   }
@@ -51,7 +47,7 @@ export default function ScheduleAgenda() {
       {days.map((day) => (
         <Box key={day}>
           <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1.5 }}>
-            {dayLabels[day]}
+            {translateDay(day, locale)}
           </Typography>
           <Paper sx={{ p: 0, overflow: 'hidden' }}>
             <Stack

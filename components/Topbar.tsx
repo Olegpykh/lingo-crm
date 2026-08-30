@@ -1,9 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { Box, Avatar, IconButton } from '@mui/material';
+import { Box, Avatar, IconButton, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAppStore } from '@/store/useAppStore';
+import { useRouter, usePathname } from '@/i18n/navigation';
+import { useLocale } from 'next-intl';
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -12,6 +13,13 @@ interface TopbarProps {
 export default function Topbar({ onMenuClick }: TopbarProps) {
   const user = useAppStore((state) => state.user);
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
+
+  const switchLocale = () => {
+    const nextLocale = locale === 'de' ? 'en' : 'de';
+    router.replace(pathname, { locale: nextLocale });
+  };
 
   return (
     <Box
@@ -34,6 +42,14 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
       </IconButton>
 
       <Box sx={{ flexGrow: 1 }} />
+
+      <Button
+        onClick={switchLocale}
+        size="small"
+        sx={{ mr: 2, minWidth: 0, fontWeight: 600 }}
+      >
+        {locale === 'de' ? 'EN' : 'DE'}
+      </Button>
 
       <Avatar
         src={user.avatar ?? undefined}

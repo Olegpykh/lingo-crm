@@ -11,8 +11,10 @@ import {
   DialogContentText,
   DialogActions,
 } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 export default function DangerZoneSection() {
+  const t = useTranslations('settings');
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   return (
@@ -22,36 +24,29 @@ export default function DangerZoneSection() {
           variant="subtitle1"
           sx={{ fontWeight: 600, mb: 0.5, color: 'error.main' }}
         >
-          Danger Zone
+          {t('dangerZone')}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Diese Aktion kann nicht rückgängig gemacht werden.
+          {t('dangerZoneText')}
         </Typography>
         <Button
           variant="outlined"
           color="error"
           onClick={() => setDeleteOpen(true)}
         >
-          Konto löschen
+          {t('deleteAccount')}
         </Button>
       </Paper>
 
-      <Dialog
-        open={deleteOpen}
-        onClose={() => setDeleteOpen(false)}
-        maxWidth="sm"
-      >
-        <DialogTitle>Konto wirklich löschen?</DialogTitle>
+      <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)}>
+        <DialogTitle>{t('deleteConfirmTitle')}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Alle Daten, einschließlich Schüler:innen und Termine, werden
-            unwiderruflich gelöscht.
-          </DialogContentText>
+          <DialogContentText>{t('deleteConfirmText')}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteOpen(false)}>Abbrechen</Button>
+          <Button onClick={() => setDeleteOpen(false)}>{t('cancel')}</Button>
           <Button color="error" onClick={() => setDeleteOpen(false)}>
-            Endgültig löschen
+            {t('deleteFinal')}
           </Button>
         </DialogActions>
       </Dialog>

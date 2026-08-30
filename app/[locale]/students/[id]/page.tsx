@@ -20,7 +20,8 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { useTranslations, useLocale } from 'next-intl';
 import { students } from '@/data/students';
 import { useAppStore } from '@/store/useAppStore';
 import { levelPalette, paymentColors } from '@/lib/colors';
@@ -33,6 +34,8 @@ export default function StudentDetailPage({
   const { id } = use(params);
   const student = students.find((s) => s.id === id);
   const lessons = useAppStore((state) => state.lessons);
+  const t = useTranslations('students');
+  const locale = useLocale() as 'de' | 'en';
 
   if (!student) {
     notFound();
@@ -48,7 +51,7 @@ export default function StudentDetailPage({
         startIcon={<ArrowBackIcon />}
         sx={{ mb: 3 }}
       >
-        Zurück zu Schüler:innen
+        {t('backToList')}
       </Button>
 
       <Paper sx={{ p: 3, mb: 3 }}>
@@ -128,7 +131,7 @@ export default function StudentDetailPage({
               }}
             />
             <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              {student.streak} Serie
+              {student.streak} {t('streak')}
             </Typography>
           </Box>
         </Box>
@@ -152,12 +155,13 @@ export default function StudentDetailPage({
                 sx={{ fontSize: 18, color: 'text.secondary' }}
               />
               <Typography variant="body2">
-                Dabei seit {student.joinedDate}
+                {t('joinedSince', { date: student.joinedDate })}
               </Typography>
             </Box>
             <Typography variant="body2" color="text.secondary">
-              Bevorzugte Zeit: {student.preferredTime} · {student.hourlyRate}
-              €/Std.
+              {t('preferredTime')}: {student.preferredTime} ·{' '}
+              {student.hourlyRate}
+              {t('perHour')}
             </Typography>
           </Grid>
         </Grid>
@@ -170,7 +174,7 @@ export default function StudentDetailPage({
               {student.progress}%
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              Fortschritt
+              {t('progress')}
             </Typography>
           </Paper>
         </Grid>
@@ -180,7 +184,7 @@ export default function StudentDetailPage({
               {student.attendanceRate}%
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              Anwesenheit
+              {t('attendance')}
             </Typography>
           </Paper>
         </Grid>
@@ -190,7 +194,7 @@ export default function StudentDetailPage({
               {student.lessonsThisWeek}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              Std. diese Woche
+              {t('hoursThisWeek')}
             </Typography>
           </Paper>
         </Grid>
@@ -200,7 +204,7 @@ export default function StudentDetailPage({
               {student.streak}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              Serie
+              {t('streak')}
             </Typography>
           </Paper>
         </Grid>
@@ -208,10 +212,10 @@ export default function StudentDetailPage({
 
       <Paper sx={{ p: 3, mb: 3 }}>
         <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1.5 }}>
-          Lernziel
+          {t('learningGoal')}
         </Typography>
         <Typography variant="body2" sx={{ mb: 2 }}>
-          {student.goal}
+          {student.goal[locale]}
         </Typography>
 
         <LinearProgress
@@ -230,21 +234,21 @@ export default function StudentDetailPage({
         <Divider sx={{ my: 2 }} />
 
         <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-          Notizen
+          {t('notes')}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {student.notes}
+          {student.notes[locale]}
         </Typography>
       </Paper>
 
       <Paper sx={{ p: 3 }}>
         <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
-          Termine
+          {t('appointments')}
         </Typography>
 
         {studentLessons.length === 0 ? (
           <Typography variant="body2" color="text.secondary">
-            Keine Termine geplant.
+            {t('noAppointments')}
           </Typography>
         ) : (
           <Stack spacing={1.5}>

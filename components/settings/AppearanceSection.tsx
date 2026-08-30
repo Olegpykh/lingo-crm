@@ -10,9 +10,11 @@ import {
   ToggleButtonGroup,
   ToggleButton,
 } from '@mui/material';
+import { useTranslations } from 'next-intl';
 import { useAppStore, accentColors } from '@/store/useAppStore';
 
 export default function AppearanceSection() {
+  const t = useTranslations('settings');
   const mode = useAppStore((state) => state.mode);
   const accent = useAppStore((state) => state.accent);
   const toggleColorMode = useAppStore((state) => state.toggleColorMode);
@@ -21,22 +23,21 @@ export default function AppearanceSection() {
   return (
     <Paper sx={{ p: 3, mb: 3 }}>
       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
-        Darstellung
+        {t('appearance')}
       </Typography>
 
       <FormControlLabel
         control={
           <Switch checked={mode === 'dark'} onChange={toggleColorMode} />
         }
-        label="Dunkler Modus"
+        label={t('darkMode')}
         sx={{ display: 'flex', justifyContent: 'space-between', ml: 0, mb: 2 }}
       />
-     
 
       <Divider sx={{ mb: 2 }} />
 
       <Typography variant="body2" sx={{ mb: 1.5, fontWeight: 500 }}>
-        Akzentfarbe
+        {t('accentColor')}
       </Typography>
       <ToggleButtonGroup
         value={accent}

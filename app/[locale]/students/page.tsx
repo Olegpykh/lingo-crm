@@ -12,6 +12,7 @@ import {
   Stack,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useTranslations } from 'next-intl';
 import StudentCard from '@/components/StudentCard';
 import { students } from '@/data/students';
 import { levelPalette } from '@/lib/colors';
@@ -19,6 +20,7 @@ import { levelPalette } from '@/lib/colors';
 const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
 
 export default function StudentsPage() {
+  const t = useTranslations('students');
   const [query, setQuery] = useState('');
   const [activeLevel, setActiveLevel] = useState<string | null>(null);
 
@@ -29,14 +31,16 @@ export default function StudentsPage() {
   });
 
   return (
-    <Container maxWidth="lg" sx={{ py: 5 }}>
+    <Container
+      maxWidth="lg"
+      sx={{ py: { xs: 3, md: 5 }, px: { xs: 2, md: 3 } }}
+    >
       <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
-        Schüler:innen
+        {t('title')}
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-        {filteredStudents.length} von {students.length} Schüler:innen
+        {t('count', { count: filteredStudents.length, total: students.length })}
       </Typography>
-
 
       <Stack
         direction="row"
@@ -44,7 +48,7 @@ export default function StudentsPage() {
         sx={{ mb: 2, flexWrap: 'wrap', gap: 1 }}
       >
         <TextField
-          placeholder="Nach Namen suchen..."
+          placeholder={t('searchPlaceholder')}
           size="small"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -67,7 +71,7 @@ export default function StudentsPage() {
         sx={{ mb: 4, flexWrap: 'wrap', gap: 1 }}
       >
         <Chip
-          label="Alle"
+          label={t('all')}
           size="small"
           onClick={() => setActiveLevel(null)}
           sx={{
@@ -98,10 +102,10 @@ export default function StudentsPage() {
       {filteredStudents.length === 0 ? (
         <Box sx={{ py: 10, textAlign: 'center', color: 'text.secondary' }}>
           <Typography variant="h6" sx={{ mb: 0.5 }}>
-            Keine Treffer
+            {t('noResults')}
           </Typography>
           <Typography variant="body2">
-            Für &quot;{query}&quot; wurde niemand gefunden.
+            {t('noResultsText', { query })}
           </Typography>
         </Box>
       ) : (

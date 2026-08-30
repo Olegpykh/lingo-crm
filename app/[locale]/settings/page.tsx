@@ -9,6 +9,7 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
+import { useTranslations } from 'next-intl';
 import { useAppStore } from '@/store/useAppStore';
 import { isValidEmail } from '@/lib/validation';
 import ProfileSection from '@/components/settings/ProfileSection';
@@ -17,6 +18,7 @@ import NotificationsSection from '@/components/settings/NotificationsSection';
 import DangerZoneSection from '@/components/settings/DangerZoneSection';
 
 export default function SettingsPage() {
+  const t = useTranslations('settings');
   const user = useAppStore((state) => state.user);
   const setUser = useAppStore((state) => state.setUser);
 
@@ -39,10 +41,10 @@ export default function SettingsPage() {
   return (
     <Container maxWidth="md" sx={{ py: 5 }}>
       <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
-        Einstellungen
+        {t('title')}
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-        Konto- und App-Einstellungen
+        {t('subtitle')}
       </Typography>
 
       <ProfileSection
@@ -66,7 +68,7 @@ export default function SettingsPage() {
           onClick={handleSave}
           disabled={!hasChanges || !emailValid}
         >
-          Änderungen speichern
+          {t('save')}
         </Button>
       </Box>
 
@@ -79,7 +81,7 @@ export default function SettingsPage() {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
         <Alert severity="success" onClose={() => setSaved(false)}>
-          Einstellungen gespeichert
+          {t('saved')}
         </Alert>
       </Snackbar>
     </Container>

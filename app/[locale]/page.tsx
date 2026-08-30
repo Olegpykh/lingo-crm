@@ -5,7 +5,8 @@ import PeopleIcon from '@mui/icons-material/People';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import PaymentIcon from '@mui/icons-material/Payment';
 import ScheduleIcon from '@mui/icons-material/Schedule';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 import StatCard from '@/components/StatCard';
 import { students } from '@/data/students';
 import { useAppStore } from '@/store/useAppStore';
@@ -37,6 +38,7 @@ const pendingPaymentsCount = getPendingPaymentsCount(students);
 const overdueCount = getOverdueCount(students);
 
 export default function Home() {
+  const t = useTranslations('dashboard');
   const lessons = useAppStore((state) => state.lessons);
 
   const upcomingLessons = [...lessons]
@@ -53,10 +55,10 @@ export default function Home() {
       sx={{ py: { xs: 3, md: 5 }, px: { xs: 2, md: 3 } }}
     >
       <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
-        Dashboard
+        {t('title')}
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-        Überblick über deine Unterrichtstätigkeit
+        {t('subtitle')}
       </Typography>
 
       <Stack
@@ -65,38 +67,36 @@ export default function Home() {
         sx={{ mb: 3, flexWrap: 'wrap', gap: 2 }}
       >
         <StatCard
-          label="Schüler:innen"
+          label={t('studentsLabel')}
           value={students.length}
-          subtitle={`${newStudentsCount} neu in den letzten 30 Tagen`}
+          subtitle={`+${newStudentsCount}`}
           subtitleColor={newStudentsCount > 0 ? 'success' : 'default'}
           icon={PeopleIcon}
           iconColor="#4f46e5"
           iconBg="#eef2ff"
         />
         <StatCard
-          label="Ø Anwesenheit"
+          label={t('attendanceLabel')}
           value={`${avgAttendance}%`}
-          subtitle={`${highAttendanceCount} von ${students.length} über 90%`}
+          subtitle={`${highAttendanceCount}/${students.length}`}
           subtitleColor={avgAttendance >= 85 ? 'success' : 'warning'}
           icon={EventAvailableIcon}
           iconColor="#059669"
           iconBg="#ecfdf5"
         />
         <StatCard
-          label="Zahlungen ausstehend"
+          label={t('paymentsLabel')}
           value={pendingPaymentsCount}
-          subtitle={
-            overdueCount > 0 ? `${overdueCount} überfällig` : 'Keine überfällig'
-          }
+          subtitle={String(overdueCount)}
           subtitleColor={overdueCount > 0 ? 'error' : 'success'}
           icon={PaymentIcon}
           iconColor="#f97316"
           iconBg="#fff7ed"
         />
         <StatCard
-          label="Unterrichtsstunden"
+          label={t('lessonsLabel')}
           value={totalLessons}
-          subtitle="diese Woche geplant"
+          subtitle={t('lessonsSubtitle')}
           icon={ScheduleIcon}
           iconColor="#8b5cf6"
           iconBg="#f5f3ff"
@@ -118,7 +118,7 @@ export default function Home() {
             }}
           >
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-              Nächste Termine
+              {t('upcomingLessons')}
             </Typography>
             <Link href="/schedule" style={{ textDecoration: 'none' }}>
               <Typography
@@ -126,7 +126,7 @@ export default function Home() {
                 color="primary"
                 sx={{ fontWeight: 500 }}
               >
-                Alle anzeigen
+                {t('showAll')}
               </Typography>
             </Link>
           </Box>
@@ -179,7 +179,7 @@ export default function Home() {
 
         <Paper sx={{ flex: 1, minWidth: 240 }}>
           <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
-            Niveauverteilung
+            {t('levelDistribution')}
           </Typography>
           <Stack spacing={1.5}>
             {Object.entries(levelCounts).map(([level, count]) => (

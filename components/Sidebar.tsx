@@ -15,20 +15,22 @@ import PeopleIcon from '@mui/icons-material/People';
 import EventIcon from '@mui/icons-material/Event';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SchoolIcon from '@mui/icons-material/School';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 export const drawerWidth = 240;
 
-const navItems = [
-  { label: 'Dashboard', icon: <DashboardIcon />, href: '/' },
-  { label: 'Schüler:innen', icon: <PeopleIcon />, href: '/students' },
-  { label: 'Termine', icon: <EventIcon />, href: '/schedule' },
-  { label: 'Einstellungen', icon: <SettingsIcon />, href: '/settings' },
-];
-
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
+  const t = useTranslations('nav');
+
+  const navItems = [
+    { label: t('dashboard'), icon: <DashboardIcon />, href: '/' },
+    { label: t('students'), icon: <PeopleIcon />, href: '/students' },
+    { label: t('schedule'), icon: <EventIcon />, href: '/schedule' },
+    { label: t('settings'), icon: <SettingsIcon />, href: '/settings' },
+  ];
+
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 3, py: 3 }}>
@@ -41,7 +43,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       <List sx={{ px: 2, py: 2 }}>
         {navItems.map((item) => (
           <ListItemButton
-            key={item.label}
+            key={item.href}
             component={Link}
             href={item.href}
             selected={pathname === item.href}
